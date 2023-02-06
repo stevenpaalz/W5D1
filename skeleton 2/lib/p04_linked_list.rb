@@ -15,6 +15,8 @@ class Node
   end
 
   def remove
+    self.prev.next = self.next
+    self.next.prev = self.prev
     # optional but useful, connects previous link to next link
     # and removes self from list.
   end
@@ -47,9 +49,18 @@ include Enumerable
   end
 
   def get(key)
+    self.each do |node|
+      if node.key == key 
+        return node.val
+      end
+    end
   end
 
   def include?(key)
+    self.each do |node|
+      return true if node.key == key
+    end
+    false
   end
 
   def append(key, val)
@@ -70,6 +81,11 @@ include Enumerable
   end
 
   def remove(key)
+    self.each do |node|
+      if node.key == key
+        node.remove
+      end
+    end
   end
 
   def each(&prc)
