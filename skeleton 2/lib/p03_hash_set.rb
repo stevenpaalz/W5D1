@@ -7,7 +7,7 @@ class HashSet
   end
 
   def insert(key)
-    if @count = num_buckets
+    if @count == num_buckets
       resize!
     end
 
