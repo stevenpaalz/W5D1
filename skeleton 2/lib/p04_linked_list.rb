@@ -2,6 +2,7 @@ class Node
   attr_reader :key
   attr_accessor :val, :next, :prev
 
+
   def initialize(key = nil, val = nil)
     @key = key
     @val = val
@@ -20,6 +21,7 @@ class Node
 end
 
 class LinkedList
+include Enumerable
   def initialize
     @head = Node.new
     @tail = Node.new
@@ -59,16 +61,27 @@ class LinkedList
   end
 
   def update(key, val)
+    self.each do |node|
+      if node.key == key
+       node.val = val
+        return
+      end
+    end
   end
 
   def remove(key)
   end
 
-  def each
+  def each(&prc)
+    node = @head
+    until node.next == @tail
+      node = node.next
+      prc.call(node)
+    end
   end
 
   # uncomment when you have `each` working and `Enumerable` included
-  # def to_s
-  #   inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
-  # end
+  def to_s
+    inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
+  end
 end
